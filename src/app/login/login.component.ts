@@ -10,6 +10,8 @@ import { AuthenticationService } from '../services/index';
 export class LoginComponent implements OnInit {
   model: any = {};
   returnUrl : string;
+  noExiste:boolean = false;
+  loading = false;
   constructor(
     private authenticationService : AuthenticationService,
     private router:Router,
@@ -23,11 +25,17 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
+    this.loading = true;
     this.authenticationService.getToken(this.model.username,this.model.password)
       .then(response => {
+        if(typeof response.response.length !== 'undefined'){
+          this.loading = false;
+          this.noExiste = true;
+        }
         this.router.navigate([this.returnUrl]);
       })
       .catch(error => {
+        this.loading = false;
         console.log(error);
       });
   }

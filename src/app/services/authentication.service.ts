@@ -14,9 +14,9 @@ export class AuthenticationService {
   constructor( private http: Http ) { }
 
   getToken(username: string, password : string): Promise<any>{
-    this.data.append('user',username);
+    this.data.append('username',username);
     this.data.append('pass',password);
-    return this.http.post('http://javascript/getToken.php',this.data,this.options)
+    return this.http.post('http://javascript/UsuarioController/login',this.data,this.options)
       .toPromise()
       .then(this.setUser)
       .catch(function(error){
@@ -26,8 +26,8 @@ export class AuthenticationService {
 
   setUser(response : Response){
     let user = response.json();
-    if(user && user.token){
-      localStorage.setItem('currentUser',JSON.stringify(user));
+    if(user.response && user.response.token){
+      localStorage.setItem('currentUser',JSON.stringify(user.response));
     }
     return user;
   }

@@ -12,6 +12,7 @@ import { AuthenticationService } from './services/index';
 import { AuthGuard } from './_guards/index';
 import { JwtHelper } from 'angular2-jwt';
 import { HomeComponent } from './home/home.component';
+import { RegistroComponent } from './registro/registro.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { HomeComponent } from './home/home.component';
     AppComponent,
     LoginComponent,
     HomeComponent,
+    RegistroComponent,
   ],
   imports: [
     BrowserModule,

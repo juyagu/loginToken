@@ -1,0 +1,28 @@
+<div class="col-md-6 col-md-offset-3">
+  <h2>Registro</h2>
+  <form name="form" #f="ngForm" novalidate>
+    <div class="form-group" [ngClass]="{'has-error':f.submitted && !nombre.valid}">
+      <label for="nombre">Nombre:</label>
+      <input type="text" class="form-control" name="nombre" [(ngModel)]="model.nombre" #nombre="ngModel" required />
+      <div *ngIf="f.submitted && !nombre.valid" class="help-block">El nombre es obligatorio</div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error':f.submitted && !apellido.valid}">
+      <label for="apellido">Apellido:</label>
+      <input type="text" class="form-control" name="apellido" [(ngModel)]="model.apellido" #nombre="ngModel" required />
+      <div *ngIf="f.submitted && !apellido.valid" class="help-block">El apellido es obligatorio</div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error':f.submitted && !usuario.valid}">
+      <label for="usuario">Usuario:</label>
+      <input type="text" class="form-control" name="usuario" [(ngModel)]="model.usuario" #nombre="ngModel" required />
+      <div *ngIf="f.submitted && !usuario.valid" class="help-block">El usuario es obligatorio</div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error':f.submitted && !password.valid}">
+      <label for="password">Password:</label>
+      <input type="text" class="form-control" name="password" [(ngModel)]="model.password" #nombre="ngModel" required />
+      <div *ngIf="f.submitted && !password.valid" class="help-block">El password es obligatorio</div>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary">Registrar</button>
+    </div>
+  </form>
+</div>
