@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
   returnUrl : string;
   noExiste:boolean = false;
   loading = false;
+  mensaje:string = "";
   constructor(
     private authenticationService : AuthenticationService,
     private router:Router,
@@ -20,23 +21,26 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.authenticationService.logout();
-    
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   login(){
     this.loading = true;
-    this.authenticationService.getToken(this.model.username,this.model.password)
-      .then(response => {
+    this.authenticationService.getToken(this.model.username,this.model.password).subscribe(
+      response => {
         if(typeof response.response.length !== 'undefined'){
           this.loading = false;
-          this.noExiste = true;
+          this.mensaje = "El usuario o la contraseña ingresado no es correcto";
         }
+        this.authenticationService.setUser(response);
         this.router.navigate([this.returnUrl]);
-      })
-      .catch(error => {
+      },
+      error => {
         this.loading = false;
-        console.log(error);
-      });
+        this.mensaje = "Hubo un error, por favor intente mas tarde";
+        console.log("Código: " + error.status);
+        console.log("Error: " + error.error.error);
+      }
+    );
   }
 }

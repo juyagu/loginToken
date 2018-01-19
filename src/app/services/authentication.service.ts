@@ -1,31 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Headers,RequestOptions,URLSearchParams } from '@angular/http';
+//import { Headers,RequestOptions,URLSearchParams } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import '../rxjs-operator';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
 export class AuthenticationService {
-  private headers = new Headers({'Content-Type' : 'application/x-www-form-urlencoded'});
-  private options = new RequestOptions({ headers: this.headers });
-  private data = new URLSearchParams();
+
   private user:any;
   
-  constructor( private http: Http ) { }
+  constructor( private http: HttpClient ) { }
 
-  getToken(username: string, password : string): Promise<any>{
-    this.data.append('username',username);
-    this.data.append('pass',password);
-    return this.http.post('http://javascript/UsuarioController/login',this.data,this.options)
-      .toPromise()
-      .then(this.setUser)
-      .catch(function(error){
-        console.log(error);
-      });
+  getToken(username: string, password : string): Observable<any>{
+    let json = JSON.stringify({username : username,pass : password});
+    let params = "params="+json;
+    let headers = new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded');
+    return this.http.post('http://javascript/UsuarioController/login',params,{headers : headers});
   }
 
-  setUser(response : Response){
-    let user = response.json();
+  setUser(user : any){
     if(user.response && user.response.token){
       localStorage.setItem('currentUser',JSON.stringify(user.response));
     }
